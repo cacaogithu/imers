@@ -6,7 +6,7 @@ const SpeakersSection = () => {
   const speakers = [
     {
       name: 'Dr. Juan Pablo Boeira',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
+      image: '/lovable-uploads/236ebffb-4522-45b7-9557-3c9b2ad0876a.png',
       role: 'Especialista em Transformação Digital e IA',
       bio: 'Com mais de 25 anos de expertise em transformação digital e IA, Dr. Juan Pablo Boeira é reconhecido internacionalmente e premiado por sua contribuição ao setor, posicionando-se como uma das maiores autoridades no assunto.',
       linkedin: '#'
