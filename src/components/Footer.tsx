@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-4 md:px-6">
+    <footer className="bg-black/80 text-gray-300 py-12 px-4 md:px-6 border-t border-gray-800">
       <div className="container mx-auto max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p>&copy; 2024 Workshop de IA e Transformação Digital. Todos os direitos reservados.</p>
         </div>
       </div>
