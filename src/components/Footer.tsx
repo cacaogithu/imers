@@ -15,14 +15,14 @@ const Footer = () => {
           
           <div>
             <h3 className="text-white text-lg font-bold mb-4">Contato</h3>
-            <p className="mb-2">Email: contato@workshopdeai.com</p>
-            <p>WhatsApp: +1 (123) 456-7890</p>
+            <p className="mb-2">Email: info@cacao-ai.com</p>
+            <p>WhatsApp: +1 (407) 989-7162</p>
           </div>
           
           <div>
             <h3 className="text-white text-lg font-bold mb-4">Detalhes do Evento</h3>
             <p className="mb-2">Data: 2 e 3 de maio de 2024</p>
-            <p className="mb-2">Local: Orlando, Flórida</p>
+            <p className="mb-2">Local: Orlando, FL</p>
             <p>Vagas: Limitadas a 40 participantes</p>
           </div>
         </div>

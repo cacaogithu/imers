@@ -15,15 +15,15 @@ const FAQSection = () => {
     },
     {
       question: 'Como este workshop se diferencia de outros treinamentos?',
-      answer: 'Nosso foco está 100% na aplicação prática. Você não apenas aprenderá conceitos, mas implementará soluções reais durante o evento, acompanhado de especialistas reconhecidos internacionalmente.'
+      answer: 'Nosso foco está 100% na aplicação prática. Você não apenas aprenderá conceitos, mas implementará soluções reais durante as 16 horas de evento, acompanhado de especialistas reconhecidos internacionalmente.'
     },
     {
       question: 'O que preciso levar para o workshop?',
       answer: 'Recomendamos que traga seu laptop para as atividades práticas. Todos os materiais necessários serão fornecidos durante o evento.'
     },
     {
-      question: 'Haverá certificado de participação?',
-      answer: 'Sim, todos os participantes receberão um certificado oficial reconhecido pela autoridade em IA e transformação digital.'
+      question: 'Haverá suporte após o evento?',
+      answer: 'Sim, todos os participantes terão acesso a um grupo exclusivo onde poderão tirar dúvidas e compartilhar experiências após o workshop.'
     },
     {
       question: 'Posso aplicar o que aprenderei no meu negócio específico?',

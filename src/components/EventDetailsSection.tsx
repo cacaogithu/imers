@@ -13,12 +13,12 @@ const EventDetailsSection = () => {
     {
       icon: <MapPin className="h-6 w-6 text-purple-600" />,
       title: 'Local',
-      description: 'Orlando, Flórida',
+      description: 'Orlando, FL',
     },
     {
       icon: <Clock className="h-6 w-6 text-purple-600" />,
       title: 'Duração',
-      description: '2 dias de imersão',
+      description: '16 horas em 2 dias de imersão',
     },
     {
       icon: <Users className="h-6 w-6 text-purple-600" />,
@@ -67,22 +67,25 @@ const EventDetailsSection = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
-                  <span>Networking com empreendedores de alto nível</span>
+                  <span>16 horas de conteúdo prático e imersivo</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
-                  <span>Material exclusivo e certificado de participação</span>
+                  <span>Networking com empreendedores de alto nível</span>
                 </li>
               </ul>
             </div>
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl">
               <h4 className="text-xl font-bold mb-6">Investimento:</h4>
               <div className="mb-6">
-                <p className="text-white/70 text-sm line-through">De $1.997</p>
-                <p className="text-3xl font-bold">Por $997</p>
-                <p className="text-white/90 text-sm">ou em até 12x no cartão</p>
+                <p className="text-white/70 text-sm line-through">De R$950 (Lote 1)</p>
+                <p className="text-3xl font-bold">Por R$850</p>
+                <p className="text-white/90 text-sm">Lote 1 - válido até 14 de maio</p>
               </div>
-              <Button size="lg" className="w-full bg-white text-purple-600 hover:bg-white/90 rounded-lg font-semibold py-6">
+              <Button size="lg" 
+                className="w-full bg-white text-purple-600 hover:bg-white/90 rounded-lg font-semibold py-6"
+                onClick={() => window.open('https://link.fastpaydirect.com/payment-link/67ec4d2b717876ad43a44e8f', '_blank')}
+              >
                 Garantir minha vaga
               </Button>
               <p className="text-center text-white/80 text-xs mt-4">

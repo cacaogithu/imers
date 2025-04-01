@@ -11,15 +11,19 @@ const CTASection = () => {
             Pronto para <span className="gradient-text">transformar</span> seu negócio?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-            As vagas são limitadas e esta é uma oportunidade única para aprender com os maiores especialistas em transformação digital e IA.
+            As vagas são limitadas e esta é uma oportunidade única para aprender com os maiores especialistas em transformação digital e IA durante 16 horas de imersão prática.
           </p>
           
-          <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-full font-semibold px-8 py-6 text-lg">
+          <Button 
+            size="lg" 
+            className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-full font-semibold px-8 py-6 text-lg"
+            onClick={() => window.open('https://link.fastpaydirect.com/payment-link/67ec4d2b717876ad43a44e8f', '_blank')}
+          >
             Garantir minha vaga agora
           </Button>
           
           <p className="text-sm text-gray-500 mt-4">
-            Apenas 40 vagas disponíveis para este evento exclusivo.
+            Apenas 40 vagas disponíveis para este evento exclusivo. Lote 1: R$850 (válido até 14 de maio).
           </p>
         </div>
       </div>

@@ -5,18 +5,18 @@ import { LinkedinIcon } from 'lucide-react';
 const SpeakersSection = () => {
   const speakers = [
     {
-      name: 'Dr. Juan Pablo Boeira',
+      name: 'Dr. Juan Pablo D. Boeira (PhD)',
       image: '/lovable-uploads/13af7898-fae1-4734-8ddb-f0d15938fb4d.png',
-      role: 'Especialista em Transformação Digital e IA',
-      bio: 'Com mais de 25 anos de expertise em transformação digital e IA, Dr. Juan Pablo Boeira é reconhecido internacionalmente e premiado por sua contribuição ao setor, posicionando-se como uma das maiores autoridades no assunto.',
-      linkedin: '#'
+      role: 'VP de IA da ABSTRATO Inovação e Tecnologia',
+      bio: 'Pós-Doutorado em IA (UFSC/UNIOESTE), Doutorado em IA (UNISINOS), Mestrado em Inovação (UNISINOS); Especializações pelo MIT, Harvard, e INSEAD; Certificação em Engenharia de Prompt (OPEN AI) e em Gestão de IA (AWS); Colunista de Inovação e Tecnologia da ÉPOCA NEGÓCIOS; Autor de 4 livros; 1º Top Voice de IA no LinkedIn; Personalidade do Ano em IA no Brasil; mais de 25 anos de experiência liderando áreas em empresas como Johnson&Johnson, Coca-Cola, Red Bull, Lojas Renner e iPlace/Apple Brasil, com 60+ prêmios nacionais e internacionais.',
+      linkedin: 'https://www.linkedin.com/in/juanpabloboeira/'
     },
     {
       name: 'Rafael Milagre',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-      role: 'Especialista em Prompts e Soluções de IA',
-      bio: 'Referência nacional na criação de prompts e soluções práticas de IA, Rafael tem experiência direta no Vale do Silício e no mercado brasileiro, transformando desafios em oportunidades com sua abordagem inovadora.',
-      linkedin: '#'
+      role: 'Diretor de IA da Nalk',
+      bio: 'Referência na criação de prompts de IA; ex-CEO em grandes startups do Vale do Silício; mais de 11 anos de carreira em Marketing Digital, Tecnologia e Growth Hacking; reconhecido nacionalmente como um dos melhores desenvolvedores de Assistentes de IA; mentor de IA na G4 educação.',
+      linkedin: 'https://www.linkedin.com/in/rafaelmilagre/'
     }
   ];
 
