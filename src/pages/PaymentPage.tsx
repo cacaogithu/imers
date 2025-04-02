@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import PayPalButton from '@/components/PayPalButton';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Nome deve ter no mínimo 3 caracteres" }),
@@ -21,6 +22,8 @@ type FormValues = z.infer<typeof formSchema>;
 const PaymentPage = () => {
   const { eventData, loading } = useEvent();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPayPal, setShowPayPal] = useState(false);
+  const [formData, setFormData] = useState<FormValues | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -37,22 +40,15 @@ const PaymentPage = () => {
     setIsSubmitting(true);
     
     try {
-      // Here you would call your API to process the payment
-      // For now, we'll just simulate a successful payment
-      console.log('Payment data:', values);
-      
-      // Redirect to payment gateway
-      window.open('https://link.fastpaydirect.com/payment-link/67ec4d2b717876ad43a44e8f', '_blank');
-      
+      // Save form data and show PayPal button
+      setFormData(values);
+      setShowPayPal(true);
       toast({
-        title: "Formulário enviado com sucesso!",
-        description: "Você será redirecionado para a página de pagamento."
+        title: "Informações recebidas",
+        description: "Por favor, complete o pagamento abaixo."
       });
-      
-      // Optional: Navigate back to home after a delay
-      setTimeout(() => navigate('/'), 3000);
     } catch (error) {
-      console.error('Payment error:', error);
+      console.error('Form error:', error);
       toast({
         variant: "destructive",
         title: "Erro no envio",
@@ -94,59 +90,83 @@ const PaymentPage = () => {
           </div>
         </div>
         
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome completo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite seu nome completo" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {!showPayPal ? (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome completo</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Digite seu nome completo" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="seu@email.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>WhatsApp</FormLabel>
+                    <FormControl>
+                      <Input placeholder="+X (XXX) XXX-XXXX" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Processando...' : 'Prosseguir para pagamento'}
+              </Button>
+            </form>
+          </Form>
+        ) : (
+          <div className="space-y-6">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <h3 className="font-medium mb-2">Suas informações:</h3>
+              <p className="text-sm"><span className="font-medium">Nome:</span> {formData?.name}</p>
+              <p className="text-sm"><span className="font-medium">Email:</span> {formData?.email}</p>
+              <p className="text-sm"><span className="font-medium">WhatsApp:</span> {formData?.phone}</p>
+            </div>
             
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="seu@email.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>WhatsApp</FormLabel>
-                  <FormControl>
-                    <Input placeholder="+X (XXX) XXX-XXXX" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <h3 className="font-medium mb-3">Selecione um método de pagamento:</h3>
+              {formData && <PayPalButton name={formData.name} email={formData.email} phone={formData.phone} />}
+            </div>
             
             <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
-              disabled={isSubmitting}
+              variant="outline" 
+              className="w-full" 
+              onClick={() => setShowPayPal(false)}
             >
-              {isSubmitting ? 'Processando...' : 'Prosseguir para pagamento'}
+              Voltar e editar informações
             </Button>
-          </form>
-        </Form>
+          </div>
+        )}
         
         <p className="text-xs text-center text-gray-500 mt-4">
           Suas informações são seguras e não serão compartilhadas.
