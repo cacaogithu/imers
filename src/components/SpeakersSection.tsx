@@ -8,14 +8,32 @@ const SpeakersSection = () => {
       name: 'Dr. Juan Pablo D. Boeira (PhD)',
       image: '/lovable-uploads/13af7898-fae1-4734-8ddb-f0d15938fb4d.png',
       role: 'VP de IA da ABSTRATO Inovação e Tecnologia',
-      bio: 'Pós-Doutorado em IA (UFSC/UNIOESTE), Doutorado em IA (UNISINOS), Mestrado em Inovação (UNISINOS); Especializações pelo MIT, Harvard, e INSEAD; Certificação em Engenharia de Prompt (OPEN AI) e em Gestão de IA (AWS); Colunista de Inovação e Tecnologia da ÉPOCA NEGÓCIOS; Autor de 4 livros; 1º Top Voice de IA no LinkedIn; Personalidade do Ano em IA no Brasil; mais de 25 anos de experiência liderando áreas em empresas como Johnson&Johnson, Coca-Cola, Red Bull, Lojas Renner e iPlace/Apple Brasil, com 60+ prêmios nacionais e internacionais.',
+      bio: [
+        'Pós-Doutorado em IA (UFSC/UNIOESTE)',
+        'Doutorado em IA (UNISINOS)',
+        'Mestrado em Inovação (UNISINOS)',
+        'Especializações pelo MIT, Harvard, e INSEAD',
+        'Certificação em Engenharia de Prompt (OPEN AI) e em Gestão de IA (AWS)',
+        'Colunista de Inovação e Tecnologia da ÉPOCA NEGÓCIOS',
+        'Autor de 4 livros',
+        '1º Top Voice de IA no LinkedIn',
+        'Personalidade do Ano em IA no Brasil',
+        'Mais de 25 anos de experiência em empresas como Johnson&Johnson, Coca-Cola, Red Bull, Lojas Renner e iPlace/Apple Brasil',
+        '60+ prêmios nacionais e internacionais'
+      ],
       linkedin: 'https://www.linkedin.com/in/juanpabloboeira/'
     },
     {
       name: 'Rafael Milagre',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
       role: 'Diretor de IA da Nalk',
-      bio: 'Referência na criação de prompts de IA; ex-CEO em grandes startups do Vale do Silício; mais de 11 anos de carreira em Marketing Digital, Tecnologia e Growth Hacking; reconhecido nacionalmente como um dos melhores desenvolvedores de Assistentes de IA; mentor de IA na G4 educação.',
+      bio: [
+        'Referência na criação de prompts de IA',
+        'Ex-CEO em grandes startups do Vale do Silício',
+        'Mais de 11 anos de carreira em Marketing Digital, Tecnologia e Growth Hacking',
+        'Reconhecido nacionalmente como um dos melhores desenvolvedores de Assistentes de IA',
+        'Mentor de IA na G4 educação'
+      ],
       linkedin: 'https://www.linkedin.com/in/rafaelmilagre/'
     }
   ];
@@ -45,7 +63,16 @@ const SpeakersSection = () => {
               <div className="p-6 md:w-2/3">
                 <h3 className="text-2xl font-bold mb-1">{speaker.name}</h3>
                 <p className="text-purple-600 font-medium mb-4">{speaker.role}</p>
-                <p className="text-gray-600 mb-4">{speaker.bio}</p>
+                
+                <div className="space-y-1 mb-4">
+                  {speaker.bio.map((item, i) => (
+                    <div key={i} className="flex items-start">
+                      <div className="h-1.5 w-1.5 rounded-full bg-purple-600 mt-2 mr-2 flex-shrink-0"></div>
+                      <p className="text-gray-600 text-sm">{item}</p>
+                    </div>
+                  ))}
+                </div>
+                
                 <a 
                   href={speaker.linkedin} 
                   target="_blank" 

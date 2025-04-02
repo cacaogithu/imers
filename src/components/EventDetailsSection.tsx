@@ -2,8 +2,13 @@
 import React from 'react';
 import { CalendarDays, MapPin, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useEvent } from '@/contexts/EventContext';
 
 const EventDetailsSection = () => {
+  const { eventData } = useEvent();
+  const navigate = useNavigate();
+  
   const details = [
     {
       icon: <CalendarDays className="h-6 w-6 text-purple-600" />,
@@ -23,9 +28,13 @@ const EventDetailsSection = () => {
     {
       icon: <Users className="h-6 w-6 text-purple-600" />,
       title: 'Vagas limitadas',
-      description: 'Máximo de 40 participantes',
+      description: `Máximo de ${eventData?.spots || 40} participantes`,
     },
   ];
+
+  const handleClickPayment = () => {
+    navigate('/payment');
+  };
 
   return (
     <div className="py-20 px-4 md:px-6 bg-white">
@@ -63,7 +72,7 @@ const EventDetailsSection = () => {
               <ul className="space-y-2 mb-8">
                 <li className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
-                  <span>Apenas 40 vagas disponíveis</span>
+                  <span>Apenas {eventData?.spots || 40} vagas disponíveis</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 rounded-full bg-white"></div>
@@ -78,13 +87,13 @@ const EventDetailsSection = () => {
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl">
               <h4 className="text-xl font-bold mb-6">Investimento:</h4>
               <div className="mb-6">
-                <p className="text-white/70 text-sm line-through">De R$950 (Lote 1)</p>
-                <p className="text-3xl font-bold">Por R$850</p>
-                <p className="text-white/90 text-sm">Lote 1 - válido até 14 de maio</p>
+                <p className="text-white/70 text-sm line-through">De R${(eventData?.price || 850) + 100} (Lote {eventData?.lote || 1})</p>
+                <p className="text-3xl font-bold">Por R${eventData?.price || 850}</p>
+                <p className="text-white/90 text-sm">Lote {eventData?.lote || 1} - válido até 14 de maio</p>
               </div>
               <Button size="lg" 
                 className="w-full bg-white text-purple-600 hover:bg-white/90 rounded-lg font-semibold py-6"
-                onClick={() => window.open('https://link.fastpaydirect.com/payment-link/67ec4d2b717876ad43a44e8f', '_blank')}
+                onClick={handleClickPayment}
               >
                 Garantir minha vaga
               </Button>

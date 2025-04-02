@@ -2,8 +2,48 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarDays, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Nome é obrigatório" }),
+  email: z.string().email({ message: "Email inválido" }),
+  phone: z.string().min(10, { message: "Telefone inválido" })
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: ''
+    }
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+    toast({
+      title: "Formulário enviado com sucesso!",
+      description: "Você será redirecionado para completar sua inscrição."
+    });
+    navigate('/payment');
+  };
+
+  const handleButtonClick = () => {
+    navigate('/payment');
+  };
+
   return (
     <div className="hero-gradient min-h-[90vh] px-4 md:px-6 pt-20 pb-16 flex flex-col justify-center">
       <div className="container mx-auto max-w-6xl">
@@ -22,10 +62,19 @@ const HeroSection = () => {
             </p>
             
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-full font-semibold px-8 py-6">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-full font-semibold px-8 py-6"
+                onClick={handleButtonClick}
+              >
                 Garantir minha vaga
               </Button>
-              <Button variant="outline" size="lg" className="rounded-full font-semibold border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-6">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="rounded-full font-semibold border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-6"
+                onClick={() => document.getElementById('sobre')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Conhecer mais
               </Button>
             </div>
@@ -46,32 +95,49 @@ const HeroSection = () => {
             <h3 className="text-xl font-bold mb-4">Garanta sua vaga agora:</h3>
             <p className="text-gray-500 mb-6">Apenas 40 vagas disponíveis para este evento exclusivo.</p>
             
-            <form className="space-y-4">
-              <div>
-                <input 
-                  type="text" 
-                  placeholder="Seu nome completo" 
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Seu nome completo" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div>
-                <input 
-                  type="email" 
-                  placeholder="Seu melhor e-mail" 
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input type="email" placeholder="Seu melhor e-mail" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div>
-                <input 
-                  type="tel" 
-                  placeholder="Seu WhatsApp" 
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Seu WhatsApp" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-lg font-semibold py-4">
-                Quero participar
-              </Button>
-            </form>
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-lg font-semibold py-4">
+                  Quero participar
+                </Button>
+              </form>
+            </Form>
             
             <p className="text-xs text-gray-500 mt-4 text-center">
               Suas informações são seguras e não serão compartilhadas.

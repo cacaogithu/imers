@@ -1,8 +1,17 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useEvent } from '@/contexts/EventContext';
 
 const CTASection = () => {
+  const { eventData } = useEvent();
+  const navigate = useNavigate();
+
+  const handleClickPayment = () => {
+    navigate('/payment');
+  };
+
   return (
     <div className="py-20 px-4 md:px-6 bg-white">
       <div className="container mx-auto max-w-5xl">
@@ -17,13 +26,14 @@ const CTASection = () => {
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white rounded-full font-semibold px-8 py-6 text-lg"
-            onClick={() => window.open('https://link.fastpaydirect.com/payment-link/67ec4d2b717876ad43a44e8f', '_blank')}
+            onClick={handleClickPayment}
           >
             Garantir minha vaga agora
           </Button>
           
           <p className="text-sm text-gray-500 mt-4">
-            Apenas 40 vagas disponíveis para este evento exclusivo. Lote 1: R$850 (válido até 14 de maio).
+            Apenas {eventData?.spots || 40} vagas disponíveis para este evento exclusivo. 
+            Lote {eventData?.lote || 1}: R${eventData?.price || 850} (válido até 14 de maio).
           </p>
         </div>
       </div>
