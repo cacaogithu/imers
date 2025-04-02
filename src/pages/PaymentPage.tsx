@@ -1,7 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEvent } from '../contexts/EventContext';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -10,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import PayPalButton from '@/components/PayPalButton';
+import { EventData, fetchEventData } from '@/services/eventService';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Nome deve ter no mínimo 3 caracteres" }),
@@ -20,12 +20,35 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const PaymentPage = () => {
-  const { eventData, loading } = useEvent();
+  const [eventData, setEventData] = useState<EventData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPayPal, setShowPayPal] = useState(false);
   const [formData, setFormData] = useState<FormValues | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchEventData();
+        setEventData(data);
+        console.log("Event data fetched in payment page:", data);
+      } catch (err) {
+        console.error("Error fetching event data:", err);
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Falha ao carregar informações do evento."
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [toast]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -84,8 +107,8 @@ const PaymentPage = () => {
               <p className="text-sm text-gray-600">Vagas disponíveis: {eventData?.spots}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500 line-through">R${eventData?.price + 100}</p>
-              <p className="text-xl font-bold text-purple-700">R${eventData?.price}</p>
+              <p className="text-sm text-gray-500 line-through">R${eventData?.price ? eventData.price + 100 : 950}</p>
+              <p className="text-xl font-bold text-purple-700">R${eventData?.price || 850}</p>
             </div>
           </div>
         </div>
@@ -155,7 +178,7 @@ const PaymentPage = () => {
             
             <div>
               <h3 className="font-medium mb-3">Selecione um método de pagamento:</h3>
-              {formData && <PayPalButton name={formData.name} email={formData.email} phone={formData.phone} />}
+              {formData && <PayPalButton name={formData.name} email={formData.email} phone={formData.phone} eventData={eventData} />}
             </div>
             
             <Button 

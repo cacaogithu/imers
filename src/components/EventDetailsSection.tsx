@@ -3,10 +3,13 @@ import React from 'react';
 import { CalendarDays, MapPin, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useEvent } from '@/contexts/EventContext';
+import { EventData } from '@/services/eventService';
 
-const EventDetailsSection = () => {
-  const { eventData } = useEvent();
+interface EventDetailsSectionProps {
+  eventData: EventData | null;
+}
+
+const EventDetailsSection: React.FC<EventDetailsSectionProps> = ({ eventData }) => {
   const navigate = useNavigate();
   
   const details = [

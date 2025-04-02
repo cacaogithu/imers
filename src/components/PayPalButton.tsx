@@ -1,18 +1,18 @@
 
 import React from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { useEvent } from '@/contexts/EventContext';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { EventData } from '@/services/eventService';
 
 interface PayPalButtonProps {
   name: string;
   email: string;
   phone: string;
+  eventData: EventData | null;
 }
 
-const PayPalButton: React.FC<PayPalButtonProps> = ({ name, email, phone }) => {
-  const { eventData } = useEvent();
+const PayPalButton: React.FC<PayPalButtonProps> = ({ name, email, phone, eventData }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({ name, email, phone }) => {
       purchase_units: [
         {
           amount: {
-            value: eventData?.price.toString() || "850",
+            value: eventData?.price?.toString() || "850",
             currency_code: "BRL"
           },
           description: "Workshop em Orlando - 2 e 3 de maio de 2024"

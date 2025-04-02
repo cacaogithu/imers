@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { EventData } from '@/services/eventService';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Nome é obrigatório" }),
@@ -18,7 +19,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  eventData: EventData | null;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ eventData }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -93,7 +98,9 @@ const HeroSection = () => {
           
           <div className="flex-1 p-6 bg-white rounded-xl shadow-lg border border-gray-100">
             <h3 className="text-xl font-bold mb-4">Garanta sua vaga agora:</h3>
-            <p className="text-gray-500 mb-6">Apenas 40 vagas disponíveis para este evento exclusivo.</p>
+            <p className="text-gray-500 mb-6">
+              Apenas {eventData?.spots || 40} vagas disponíveis para este evento exclusivo.
+            </p>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

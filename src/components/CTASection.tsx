@@ -2,10 +2,13 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useEvent } from '@/contexts/EventContext';
+import { EventData } from '@/services/eventService';
 
-const CTASection = () => {
-  const { eventData } = useEvent();
+interface CTASectionProps {
+  eventData: EventData | null;
+}
+
+const CTASection: React.FC<CTASectionProps> = ({ eventData }) => {
   const navigate = useNavigate();
 
   const handleClickPayment = () => {
