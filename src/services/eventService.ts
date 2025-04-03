@@ -37,7 +37,7 @@ export const fetchEventData = async (): Promise<EventData> => {
 
 export const submitUserSubscription = async (userData: { name: string; email: string; phone: string }): Promise<boolean> => {
   try {
-    const response = await fetch('https://ti1yg0jvc2.execute-api.us-east-2.amazonaws.com/default/EventSubscription', {
+    const response = await fetch('https://li2rmsq4q8.execute-api.us-east-2.amazonaws.com/default/EventSubscription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
