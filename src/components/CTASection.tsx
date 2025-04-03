@@ -36,7 +36,7 @@ const CTASection: React.FC<CTASectionProps> = ({ eventData }) => {
           
           <p className="text-sm text-gray-500 mt-4">
             Apenas {eventData?.spots || 40} vagas disponíveis para este evento exclusivo. 
-            Lote {eventData?.lote || 1}: R${eventData?.price || 850} (válido até 14 de maio).
+            Lote {eventData?.lote || 1}: R${eventData?.price || 800} (válido até 14 de maio).
           </p>
         </div>
       </div>

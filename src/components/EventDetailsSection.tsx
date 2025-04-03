@@ -90,8 +90,8 @@ const EventDetailsSection: React.FC<EventDetailsSectionProps> = ({ eventData }) 
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl">
               <h4 className="text-xl font-bold mb-6">Investimento:</h4>
               <div className="mb-6">
-                <p className="text-white/70 text-sm line-through">De R${(eventData?.price || 850) + 100} (Lote {eventData?.lote || 1})</p>
-                <p className="text-3xl font-bold">Por R${eventData?.price || 850}</p>
+                <p className="text-white/70 text-sm line-through">De R${(eventData?.price || 800) + 100} (Lote {eventData?.lote || 1})</p>
+                <p className="text-3xl font-bold">Por R${eventData?.price || 800}</p>
                 <p className="text-white/90 text-sm">Lote {eventData?.lote || 1} - válido até 14 de maio</p>
               </div>
               <Button size="lg" 

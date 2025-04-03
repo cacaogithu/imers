@@ -6,7 +6,7 @@ const SpeakersSection = () => {
   const speakers = [
     {
       name: 'Dr. Juan Pablo D. Boeira (PhD)',
-      image: '/lovable-uploads/13af7898-fae1-4734-8ddb-f0d15938fb4d.png',
+      image: 'https://www.juanpabloboeira.com.br/wp-content/themes/juan/assets/img/juan.png',
       role: 'VP de IA da ABSTRATO Inovação e Tecnologia',
       bio: [
         'Pós-Doutorado em IA (UFSC/UNIOESTE)',
@@ -25,7 +25,7 @@ const SpeakersSection = () => {
     },
     {
       name: 'Rafael Milagre',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
+      image: 'https://www.espm.br/wp-content/uploads/elementor/thumbs/Rafael-Milagre-qlvohqr5p7ba5qf4jehliyfw88p72kts3xzmkvigm8.jpg',
       role: 'Diretor de IA da Nalk',
       bio: [
         'Referência na criação de prompts de IA',

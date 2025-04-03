@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import PayPalButton from '@/components/PayPalButton';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { EventData, fetchEventData } from '@/services/eventService';
 
 const formSchema = z.object({
@@ -81,6 +81,47 @@ const PaymentPage = () => {
       setIsSubmitting(false);
     }
   };
+  
+  const createOrder = (data: any, actions: any) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: eventData?.price?.toString() || "800",
+            currency_code: "BRL"
+          },
+          description: "Workshop em Orlando - 2 e 3 de maio de 2024"
+        },
+      ],
+    });
+  };
+
+  const onApprove = (data: any, actions: any) => {
+    return actions.order.capture().then(function (details: any) {
+      console.log("Transaction completed by", details.payer.name.given_name);
+      console.log("Customer details:", formData);
+      
+      // Here you would make an API call to save the payment information
+      // sendPaymentInfoToAPI(formData, details);
+      
+      toast({
+        title: "Pagamento realizado com sucesso!",
+        description: `Obrigado ${formData?.name}! Você receberá um email com os detalhes do evento.`
+      });
+      
+      // Redirect to home page after successful payment
+      setTimeout(() => navigate('/'), 3000);
+    });
+  };
+
+  const onError = (err: any) => {
+    console.error("PayPal error:", err);
+    toast({
+      variant: "destructive",
+      title: "Erro no pagamento",
+      description: "Houve um problema ao processar seu pagamento. Tente novamente mais tarde."
+    });
+  };
 
   if (loading) {
     return (
@@ -107,8 +148,8 @@ const PaymentPage = () => {
               <p className="text-sm text-gray-600">Vagas disponíveis: {eventData?.spots}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500 line-through">R${eventData?.price ? eventData.price + 100 : 950}</p>
-              <p className="text-xl font-bold text-purple-700">R${eventData?.price || 850}</p>
+              <p className="text-sm text-gray-500 line-through">R${eventData?.price ? eventData.price + 100 : 900}</p>
+              <p className="text-xl font-bold text-purple-700">R${eventData?.price || 800}</p>
             </div>
           </div>
         </div>
@@ -177,8 +218,15 @@ const PaymentPage = () => {
             </div>
             
             <div>
-              <h3 className="font-medium mb-3">Selecione um método de pagamento:</h3>
-              {formData && <PayPalButton name={formData.name} email={formData.email} phone={formData.phone} eventData={eventData} />}
+              <h3 className="font-medium mb-3">Pagamento:</h3>
+              <PayPalScriptProvider options={{ clientId: "test", currency: "BRL", intent: "capture" }}>
+                <PayPalButtons
+                  style={{ layout: "vertical", color: "blue", shape: "rect", label: "pay" }}
+                  createOrder={createOrder}
+                  onApprove={onApprove}
+                  onError={onError}
+                />
+              </PayPalScriptProvider>
             </div>
             
             <Button 

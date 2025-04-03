@@ -7,18 +7,31 @@ export interface EventData {
 
 export const fetchEventData = async (): Promise<EventData> => {
   try {
-    // This is a placeholder URL - replace with your actual API endpoint
-    const response = await fetch('https://mocki.io/v1/2574198f-7e16-4f00-bc81-10c4744dbb9d');
+    // Use your actual API endpoint here
+    const response = await fetch('https://api.example.com/event-details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({}) // Empty request body as specified
+    });
     
     if (!response.ok) {
       throw new Error('Failed to fetch event data');
     }
     
     const data = await response.json();
-    return data;
+    
+    // Validate received data
+    if (data && typeof data.spots === 'number' && typeof data.price === 'number' && typeof data.lote === 'number') {
+      return data;
+    } else {
+      console.warn('API returned invalid data format, using default values');
+      return { spots: 40, price: 800, lote: 1 };
+    }
   } catch (error) {
     console.error('Error fetching event data:', error);
-    // Return default values if API fails
-    return { spots: 40, price: 850, lote: 1 };
+    // Return default values if API fails: 40 spots and 800 reais
+    return { spots: 40, price: 800, lote: 1 };
   }
 }
