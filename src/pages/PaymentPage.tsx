@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { EventData, fetchEventData, submitUserSubscription } from '@/services/eventService';
+import { BugIcon } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Nome deve ter no mínimo 3 caracteres" }),
@@ -105,9 +106,6 @@ const PaymentPage = () => {
             value: eventData?.price?.toString() || "800",
             currency_code: "BRL"
           },
-          payee: {
-            email_address: "recipient@example.com" // PayPal account receiving the payment
-          }
           description: "Workshop em Orlando - 2 e 3 de maio de 2024"
         },
       ],
@@ -156,6 +154,43 @@ const PaymentPage = () => {
       title: "Erro no pagamento",
       description: "Houve um problema ao processar seu pagamento. Tente novamente mais tarde."
     });
+  };
+
+  const handleDebugPayment = async () => {
+    if (formData) {
+      // Create userData object with required properties
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone
+      };
+      
+      // Simulate successful API call
+      const success = await submitUserSubscription(userData);
+      
+      if (success) {
+        toast({
+          title: "Simulação: Pagamento realizado com sucesso!",
+          description: `Obrigado ${formData.name}! Você receberá um email com os detalhes do evento.`
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Simulação: Aviso",
+          description: "Pagamento realizado, mas houve um problema ao registrar sua inscrição. Nossa equipe entrará em contato."
+        });
+      }
+      
+      // Redirect to home page after successful payment simulation
+      setTimeout(() => navigate('/'), 3000);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Erro na simulação",
+        description: "É necessário preencher o formulário primeiro."
+      });
+      setShowPayPal(false);
+    }
   };
 
   if (loading) {
@@ -262,6 +297,16 @@ const PaymentPage = () => {
                   onError={onError}
                 />
               </PayPalScriptProvider>
+              
+              {/* Debug button for simulating payment completion */}
+              <Button 
+                variant="outline" 
+                className="w-full mt-4 border-green-500 text-green-600 hover:bg-green-50"
+                onClick={handleDebugPayment}
+              >
+                <BugIcon className="w-4 h-4 mr-2" />
+                Debug: Simular pagamento concluído
+              </Button>
             </div>
             
             <Button 
