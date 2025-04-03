@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { EventData, fetchEventData, submitUserSubscription } from '@/services/eventService';
-import { BugIcon } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Nome deve ter no mínimo 3 caracteres" }),
@@ -29,7 +27,6 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Load saved form data from localStorage on component mount
   useEffect(() => {
     const savedFormData = localStorage.getItem('eventFormData');
     if (savedFormData) {
@@ -77,7 +74,6 @@ const PaymentPage = () => {
     setIsSubmitting(true);
     
     try {
-      // Save form data to state and localStorage
       setFormData(values);
       localStorage.setItem('eventFormData', JSON.stringify(values));
       
@@ -118,14 +114,12 @@ const PaymentPage = () => {
       console.log("Customer details:", formData);
       
       if (formData) {
-        // Make sure all required fields are present before calling the API
         const userData = {
           name: formData.name,
           email: formData.email,
           phone: formData.phone
         };
         
-        // Submit user subscription to API
         const success = await submitUserSubscription(userData);
         
         if (success) {
@@ -142,7 +136,6 @@ const PaymentPage = () => {
         }
       }
       
-      // Redirect to home page after successful payment
       setTimeout(() => navigate('/'), 3000);
     });
   };
@@ -154,43 +147,6 @@ const PaymentPage = () => {
       title: "Erro no pagamento",
       description: "Houve um problema ao processar seu pagamento. Tente novamente mais tarde."
     });
-  };
-
-  const handleDebugPayment = async () => {
-    if (formData) {
-      // Create userData object with required properties
-      const userData = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone
-      };
-      
-      // Simulate successful API call
-      const success = await submitUserSubscription(userData);
-      
-      if (success) {
-        toast({
-          title: "Simulação: Pagamento realizado com sucesso!",
-          description: `Obrigado ${formData.name}! Você receberá um email com os detalhes do evento.`
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Simulação: Aviso",
-          description: "Pagamento realizado, mas houve um problema ao registrar sua inscrição. Nossa equipe entrará em contato."
-        });
-      }
-      
-      // Redirect to home page after successful payment simulation
-      setTimeout(() => navigate('/'), 3000);
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Erro na simulação",
-        description: "É necessário preencher o formulário primeiro."
-      });
-      setShowPayPal(false);
-    }
   };
 
   if (loading) {
@@ -298,24 +254,14 @@ const PaymentPage = () => {
                 />
               </PayPalScriptProvider>
               
-              {/* Debug button for simulating payment completion */}
               <Button 
                 variant="outline" 
-                className="w-full mt-4 border-green-500 text-green-600 hover:bg-green-50"
-                onClick={handleDebugPayment}
+                className="w-full mt-4" 
+                onClick={() => setShowPayPal(false)}
               >
-                <BugIcon className="w-4 h-4 mr-2" />
-                Debug: Simular pagamento concluído
+                Voltar e editar informações
               </Button>
             </div>
-            
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={() => setShowPayPal(false)}
-            >
-              Voltar e editar informações
-            </Button>
           </div>
         )}
         
