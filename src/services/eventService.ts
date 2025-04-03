@@ -35,24 +35,25 @@ export const fetchEventData = async (): Promise<EventData> => {
   }
 }
 
-// New function to submit user subscription after payment
 export const submitUserSubscription = async (userData: { name: string; email: string; phone: string }): Promise<boolean> => {
   try {
     const response = await fetch('https://ti1yg0jvc2.execute-api.us-east-2.amazonaws.com/default/EventSubscription', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData)
+      body: JSON.stringify(userData),
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to submit user subscription');
+      const errorData = await response.json().catch(() => null); // Prevents errors if response is not JSON
+      console.error('Failed to submit user subscription:', errorData || response.statusText);
+      return false;
     }
-    
+
     return true;
   } catch (error) {
     console.error('Error submitting user subscription:', error);
     return false;
   }
-}
+};
