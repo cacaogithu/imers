@@ -117,8 +117,15 @@ const PaymentPage = () => {
       console.log("Customer details:", formData);
       
       if (formData) {
+        // Make sure all required fields are present before calling the API
+        const userData = {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        };
+        
         // Submit user subscription to API
-        const success = await submitUserSubscription(formData);
+        const success = await submitUserSubscription(userData);
         
         if (success) {
           toast({
