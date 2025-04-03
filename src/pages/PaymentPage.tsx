@@ -105,6 +105,9 @@ const PaymentPage = () => {
             value: eventData?.price?.toString() || "800",
             currency_code: "BRL"
           },
+          payee: {
+            email_address: "recipient@example.com" // PayPal account receiving the payment
+          }
           description: "Workshop em Orlando - 2 e 3 de maio de 2024"
         },
       ],
