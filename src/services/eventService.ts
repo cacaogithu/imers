@@ -8,7 +8,7 @@ export interface EventData {
 export const fetchEventData = async (): Promise<EventData> => {
   try {
     // Updated API endpoint (replace with your new endpoint)
-    const response = await fetch('https://your-new-api-endpoint.com/GetSpotsLeft');
+    const response = await fetch('https://fgfjkvwvmc.execute-api.us-east-2.amazonaws.com/default/GetSpotsLeft');
     
     // For testing, if the API is not available, we can just return mock data
     // You can remove this comment and the if(true) block once the API is working
