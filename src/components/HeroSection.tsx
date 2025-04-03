@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarDays, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -36,8 +35,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ eventData }) => {
     }
   });
 
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('eventFormData');
+    if (savedFormData) {
+      try {
+        const parsedData = JSON.parse(savedFormData);
+        form.reset(parsedData);
+      } catch (error) {
+        console.error('Failed to parse saved form data:', error);
+      }
+    }
+  }, [form]);
+
   const onSubmit = (data: FormValues) => {
     console.log(data);
+    localStorage.setItem('eventFormData', JSON.stringify(data));
+    
     toast({
       title: "Formulário enviado com sucesso!",
       description: "Você será redirecionado para completar sua inscrição."

@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { EventData, fetchEventData } from '@/services/eventService';
+import { EventData, fetchEventData, submitUserSubscription } from '@/services/eventService';
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Nome deve ter no mínimo 3 caracteres" }),
@@ -27,6 +27,19 @@ const PaymentPage = () => {
   const [formData, setFormData] = useState<FormValues | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Load saved form data from localStorage on component mount
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('eventFormData');
+    if (savedFormData) {
+      try {
+        const parsedData = JSON.parse(savedFormData);
+        form.reset(parsedData);
+      } catch (error) {
+        console.error('Failed to parse saved form data:', error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,8 +76,10 @@ const PaymentPage = () => {
     setIsSubmitting(true);
     
     try {
-      // Save form data and show PayPal button
+      // Save form data to state and localStorage
       setFormData(values);
+      localStorage.setItem('eventFormData', JSON.stringify(values));
+      
       setShowPayPal(true);
       toast({
         title: "Informações recebidas",
@@ -96,18 +111,28 @@ const PaymentPage = () => {
     });
   };
 
-  const onApprove = (data: any, actions: any) => {
-    return actions.order.capture().then(function (details: any) {
+  const onApprove = async (data: any, actions: any) => {
+    return actions.order.capture().then(async function (details: any) {
       console.log("Transaction completed by", details.payer.name.given_name);
       console.log("Customer details:", formData);
       
-      // Here you would make an API call to save the payment information
-      // sendPaymentInfoToAPI(formData, details);
-      
-      toast({
-        title: "Pagamento realizado com sucesso!",
-        description: `Obrigado ${formData?.name}! Você receberá um email com os detalhes do evento.`
-      });
+      if (formData) {
+        // Submit user subscription to API
+        const success = await submitUserSubscription(formData);
+        
+        if (success) {
+          toast({
+            title: "Pagamento realizado com sucesso!",
+            description: `Obrigado ${formData.name}! Você receberá um email com os detalhes do evento.`
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Aviso",
+            description: "Pagamento realizado, mas houve um problema ao registrar sua inscrição. Nossa equipe entrará em contato."
+          });
+        }
+      }
       
       // Redirect to home page after successful payment
       setTimeout(() => navigate('/'), 3000);
