@@ -7,8 +7,15 @@ export interface EventData {
 
 export const fetchEventData = async (): Promise<EventData> => {
   try {
-    // Use the provided API endpoint
-    const response = await fetch('https://ygfubkmflf.execute-api.us-east-2.amazonaws.com/default/GetSpotsLeft');
+    // Updated API endpoint (replace with your new endpoint)
+    const response = await fetch('https://your-new-api-endpoint.com/GetSpotsLeft');
+    
+    // For testing, if the API is not available, we can just return mock data
+    // You can remove this comment and the if(true) block once the API is working
+    if (true) {
+      console.log("Using mock data instead of API call");
+      return { spots: 40, price: 800, lote: 1 };
+    }
     
     if (!response.ok) {
       throw new Error('Failed to fetch event data');
@@ -37,6 +44,7 @@ export const fetchEventData = async (): Promise<EventData> => {
 
 export const submitUserSubscription = async (userData: { name: string; email: string; phone: string }): Promise<boolean> => {
   try {
+    // If you also need to update this endpoint, replace it with your new one
     const response = await fetch('https://li2rmsq4q8.execute-api.us-east-2.amazonaws.com/default/EventSubscription', {
       method: 'POST',
       headers: {
